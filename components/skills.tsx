@@ -2,47 +2,35 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Cpu, Globe, Layers, Rocket, Sparkles, Zap } from "lucide-react"
 
-const skills = [
-  { name: "Angular/ TypeScript", level: 90 },
-  { name: "React/ JavaScript", level: 85 },
-  { name: "Next.js", level: 75 },
-  { name: "Tailwind CSS", level: 85 },
-  { name: "Redux/Rxjs/NgRx", level: 80 },
-  { name: "GraphQL/Apollo/REST API", level: 75 },
-  { name: "Node.js", level: 70 },
-  { name: "Frontend System Design", level: 70 },
-  { name: "Decision Making & Problem-Solving", level: 80 },
-  { name: "Tech Strategy & Roadmap Planning", level: 85 },
-  { name: "Micro-Frontend Architecture", level: 85 },
-]
-
-const technologies = [
-  "Angular",
-  "Next.js",
-  "TypeScript",
-  "JavaScript",
-  "HTML5",
-  "CSS3",
-  "Tailwind CSS",
-  "Redux",
-  "GraphQL",
-  "REST API",
-  "Node.js",
-  "Express",
-  "Jest",
-  "React Testing Library",
-  "Cypress",
-  "Git",
-  "GitHub",
-  "CI/CD",
-  "Webpack",
-  "Vite",
-  "Responsive Design",
-  "Accessibility",
-  "Performance Optimization",
-  "SEO",
-  "PWA",
+const skillCategories = [
+  {
+    title: "Full-Stack Development",
+    icon: Globe,
+    skills: ["Angular", "Next.js 15", "React 19", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS"],
+    color: "text-cyan-500",
+  },
+  {
+    title: "Rapid MVP & Product",
+    icon: Rocket,
+    skills: ["0-1 Building", "Product Strategy", "Supabase", "Vercel", "Stripe Integration", "Analytics"],
+    color: "text-orange-500",
+  },
+  {
+    title: "Frontend Architecture",
+    icon: Layers,
+    skills: ["System Design", "Micro-frontends", "Performance Optimization", "Accessibility (a11y)", "Design Systems", "State Management"],
+    color: "text-blue-500",
+  },
+  {
+    title: "AI Engineering & LLMs",
+    icon: Sparkles,
+    skills: ["OpenAI API", "RAG Systems", "LangChain", "Prompt Engineering", "Fine-tuning", "Python"],
+    color: "text-purple-500",
+  },
 ]
 
 export default function Skills() {
@@ -51,65 +39,70 @@ export default function Skills() {
     threshold: 0.1,
   })
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  }
+
   return (
-    <section id="skills" className="py-20 bg-muted/30">
+    <section id="skills" className="py-24 bg-muted/40 relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-20">
+        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/20 rounded-full blur-3xl" />
+      </div>
+
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-12">
-          <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary mb-4">
-            Skills & Expertise
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">My Technical Proficiency</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            I've worked with a wide range of technologies throughout my career. Here's an overview of my technical
-            skills and expertise.
+        <div className="text-center mb-16 space-y-4">
+          <Badge variant="outline" className="px-3 py-1 text-sm border-primary/20 bg-primary/5 text-primary">
+            Expertise
+          </Badge>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+            High-Impact Technical Skills
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            I combine cutting-edge AI capabilities with robust engineering to build scalable, production-ready solutions.
           </p>
         </div>
 
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
         >
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold">Core Skills</h3>
-            <div className="space-y-4">
-              {skills.map((skill, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="font-medium">{skill.name}</span>
-                    <span className="text-muted-foreground">{skill.level}%</span>
+          {skillCategories.map((category, index) => (
+            <motion.div key={index} variants={itemVariants}>
+              <Card className="h-full border-muted-foreground/10 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+                <CardHeader className="flex flex-row items-center gap-4 pb-2">
+                  <div className={`p-2 rounded-lg bg-background/50 border border-muted ${category.color}`}>
+                    <category.icon className="w-6 h-6" />
                   </div>
-                  <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
-                      transition={{ duration: 1, delay: index * 0.1 }}
-                      className="h-full bg-primary rounded-full"
-                    />
+                  <CardTitle className="text-xl font-bold">{category.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {category.skills.map((skill, idx) => (
+                      <Badge key={idx} variant="secondary" className="px-2 py-1 text-sm font-normal bg-secondary/50 hover:bg-secondary transition-colors">
+                        {skill}
+                      </Badge>
+                    ))}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold mb-6">Technologies & Tools</h3>
-            <div className="flex flex-wrap gap-2">
-              {technologies.map((tech, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.3, delay: index * 0.03 }}
-                  className="bg-background border border-border rounded-full px-4 py-2 text-sm"
-                >
-                  {tech}
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

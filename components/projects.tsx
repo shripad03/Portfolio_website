@@ -5,73 +5,49 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Github, ExternalLink } from "lucide-react"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Github, ExternalLink, Code2 } from "lucide-react"
 
 const projects = [
   {
     id: 1,
-    title: "AI Powered Credit Card Rewards Optimizer",
-    description: "A web application that helps users optimize their credit card rewards by analyzing their spending and recommending the best credit card.",
+    title: "AI Credit Rewards Optimizer",
+    description: "Intelligent financial assistant that uses machine learning to analyze spending patterns and recommend optimal credit card strategies for maximum rewards.",
     image: "/cc-reward-banner.png",
-    tags: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    category: "web",
+    tags: ["Next.js 14", "OpenAI API", "TypeScript", "Tailwind"],
+    category: "ai",
     github: "https://github.com/Shripad03/CC-Reward-Optimizer",
     demo: "https://cc-rewardz-app.vercel.app/",
   },
   {
     id: 2,
-    title: "WineConnect",
-    description: "A web application that helps wine buyers and sellers find the best wine to import and export.",
+    title: "WineConnect Platform",
+    description: "B2B marketplace connecting global wine importers and exporters. Features real-time analytics, inventory management, and secure trade facilitation.",
     image: "/wineconnect.png",
-    tags: ["React", "TypeScript", "Chart.js", "Tailwind CSS"],
+    tags: ["React", "Supabase", "Chart.js", "Radix UI"],
     category: "web",
     github: "https://github.com/Shripad03/wineconnect-pro",
     demo: "https://wineconnect-5waezzex9-shreepad-avhads-projects.vercel.app/"
   },
   {
     id: 3,
-    title: "IoT based parking system",
-    description: "IoT based parking system using Arduino and ESP32",
+    title: "IoT Smart Parking System",
+    description: "Real-time IoT solution for urban parking management using ESP32 microcontrollers and a cloud-based dashboard for live occupancy tracking.",
     image: "/parkease.png",
-    tags: ["Arduino", "ESP32", "Firebase", "Redux", "Styled Components"],
-    category: "web",
+    tags: ["IoT", "ESP32", "Firebase", "React"],
+    category: "iot",
     github: "#",
     demo: "https://easypark1.vercel.app/",
-  },
-  {
-    id: 4,
-    title: "Policy Maker",
-    description: "An AI powered policy maker to help small businesses draft their e-commerce policies.",
-    image: "/policymaker.png",
-    tags: ["automation workflow","Bubble.io", "API Integration"],
-    category: ["mobile","web"],
-    github: "#",
-    demo: "https://shripadavhad.bubbleapps.io/version-test",
-  },
-  {
-    id: 5,
-    title: "Task Management Tool",
-    description: "A productivity tool for managing tasks, projects, and team collaboration.",
-    image: "/placeholder.svg?height=600&width=800",
-    tags: ["React", "Node.js", "MongoDB", "Socket.io"],
-    category: "web",
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 6,
-    title: "Fitness Tracker",
-    description: "A mobile application for tracking workouts, nutrition, and fitness progress.",
-    image: "/placeholder.svg?height=600&width=800",
-    tags: ["React Native", "Redux", "Health API"],
-    category: "mobile",
-    github: "#",
-    demo: "#",
-  },
+  }
 ]
 
-const categories = ["all", "web", "mobile", "design"]
+const categories = [
+  { id: "all", label: "All Projects" },
+  { id: "ai", label: "AI & ML" },
+  { id: "web", label: "Web Apps" },
+  { id: "iot", label: "IoT" },
+]
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("all")
@@ -83,27 +59,28 @@ export default function Projects() {
   const filteredProjects = projects.filter((project) => activeCategory === "all" || project.category === activeCategory)
 
   return (
-    <section id="projects" className="py-20 bg-background">
+    <section id="projects" className="py-24 bg-background relative">
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-12">
-          <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary mb-4">Portfolio</div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Featured Projects</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            A selection of my recent work. These projects showcase my skills and experience in building modern web and
-            mobile applications.
+        <div className="text-center mb-16 space-y-4">
+          <Badge variant="secondary" className="px-3 py-1 text-sm bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+            Portfolio
+          </Badge>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Featured Work</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            A selection of projects demonstrating my expertise in AI engineering, full-stack development, and IoT solutions.
           </p>
         </div>
 
-        <div className="flex justify-center mb-10">
-          <div className="flex flex-wrap gap-2 justify-center">
+        <div className="flex justify-center mb-12">
+          <div className="flex flex-wrap gap-2 p-1 bg-muted/50 rounded-full backdrop-blur-sm border border-border">
             {categories.map((category) => (
               <Button
-                key={category}
-                variant={activeCategory === category ? "default" : "outline"}
-                onClick={() => setActiveCategory(category)}
-                className="capitalize"
+                key={category.id}
+                variant={activeCategory === category.id ? "secondary" : "ghost"}
+                onClick={() => setActiveCategory(category.id)}
+                className={`rounded-full px-6 transition-all duration-300 ${activeCategory === category.id ? 'bg-primary text-primary-foreground shadow-md' : 'hover:bg-muted'}`}
               >
-                {category}
+                {category.label}
               </Button>
             ))}
           </div>
@@ -111,67 +88,72 @@ export default function Projects() {
 
         <motion.div
           ref={ref}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3 }}
                 layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
               >
-                <Card className="overflow-hidden h-full flex flex-col">
+                <Card className="overflow-hidden h-full flex flex-col group border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 bg-card">
                   <div className="relative aspect-video overflow-hidden">
+                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
+                      <Button variant="secondary" size="sm" className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300" asChild>
+                        <a href={project.demo} target="_blank" rel="noopener noreferrer">View Demo</a>
+                      </Button>
+                    </div>
                     <Image
                       src={project.image || "/placeholder.svg"}
                       alt={project.title}
                       width={800}
                       height={600}
-                      style={{ height: "213px" }}
-                      className="object-cover transition-transform duration-300 hover:scale-105"
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <CardContent className="flex flex-col flex-grow p-6">
-                    <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                    <p className="text-muted-foreground mb-4 flex-grow">{project.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
+                  <CardHeader className="p-6 pb-2">
+                    <div className="flex justify-between items-start">
+                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">{project.title}</h3>
+                      {project.category === 'ai' && <Badge variant="outline" className="border-purple-500/50 text-purple-500">AI</Badge>}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-2 flex-grow">
+                    <p className="text-muted-foreground mb-6 line-clamp-3">{project.description}</p>
+                    <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag, index) => (
-                        <span key={index} className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+                        <Badge key={index} variant="secondary" className="bg-secondary/50 font-normal text-xs">
                           {tag}
-                        </span>
+                        </Badge>
                       ))}
                     </div>
-                    <div className="flex gap-2 mt-auto">
-                      <Button variant="outline" size="sm" asChild>
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1"
-                        >
-                          <Github className="h-4 w-4" />
-                          Code
-                        </a>
-                      </Button>
-                      <Button size="sm" asChild>
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                          Live Demo
-                        </a>
-                      </Button>
-                    </div>
                   </CardContent>
+                  <CardFooter className="p-6 pt-0 flex gap-3">
+                    <Button variant="outline" size="sm" className="flex-1 gap-2" asChild>
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Github className="h-4 w-4" />
+                        Code
+                      </a>
+                    </Button>
+                    <Button size="sm" className="flex-1 gap-2" asChild>
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        Live Demo
+                      </a>
+                    </Button>
+                  </CardFooter>
                 </Card>
               </motion.div>
             ))}

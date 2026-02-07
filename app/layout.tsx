@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
-  title: 'shreepad Avhad',
-  description: 'Created by shreepad Avhad',
-  generator: 'shreepad Avhad',
+  title: 'Shreepad Avhad',
+  description: 'Senior Product Designer & Frontend Architect',
+  generator: 'Next.js',
 }
 
 export default function RootLayout({
@@ -13,11 +14,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body
-        className="min-h-screen bg-background"
-        data-new-gr-c-s-check-loaded="14.1229.0"
-        data-gr-ext-installed=""
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased text-foreground selection:bg-primary/20 selection:text-primary"
+        )}
       >
         {children}
       </body>

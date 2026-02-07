@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image" // Added Import
 import { ArrowDown, Github, Instagram, Linkedin, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -20,10 +21,17 @@ export default function Hero() {
 
   return (
     <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-background">
-      {/* Background Gradients */}
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid-pattern opacity-[0.03]" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="h-[500px] w-[500px] bg-primary/20 rounded-full blur-[100px] animate-pulse" />
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/scuba.jpg"
+          alt="Ocean Background"
+          fill
+          priority
+          quality={75}
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-background/80" /> {/* Overlay for readability */}
       </div>
 
       <div className="container relative z-10 px-4 md:px-6">

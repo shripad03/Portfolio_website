@@ -163,6 +163,11 @@ export default function Contact() {
                     />
                   </svg>
                 </a>
+                <a href="https://shripad-avhad.medium.com/" target="_blank" rel="noopener noreferrer" className="bg-background border rounded-full p-3 hover:border-primary transition-colors">
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.59 0-1.07-2.15-1.07-5.06V6.31c0-2.9.48-5.05 1.07-5.05.66 0 1.19 2.58 1.19 5.75z" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
